@@ -5,6 +5,7 @@ defmodule Bouncy.User do
     field :name, :string
     field :username, :string
     field :password, :string, virtual: true
+    field :password_confirmation, :string, virtual: true
     field :password_hash, :string
 
     timestamps()
@@ -15,8 +16,8 @@ defmodule Bouncy.User do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name, :username, :password])
-    |> validate_required([:name, :username, :password])
+    |> cast(params, [:name, :username, :password, :password_confirmation])
+    |> validate_required([:name, :username, :password, :password_confirmation])
     |> validate_length(:username, min: 5, max: 20)
     |> validate_format(:username, ~r/^[a-zA-Z0-9_.-]*$/, message: "Please use letters and numbers without space(only characters allowed _ . -)")
     |> unique_constraint(:username)
@@ -29,6 +30,7 @@ defmodule Bouncy.User do
     |> validate_length(:password, min: 8, max: 100)
     |> validate_format(:password, ~r/^[a-zA-Z0-9_.-]*$/, message: "Please use letters and numbers without space(only characters allowed _ . -)")
     |> validate_format(:password, ~r/^(?=.*[a-zA-Z])(?=.*[0-9])/, message: "Password must contain letters and numbers")
+    |> validate_confirmation(:password)
     |> put_pass_hash()
   end
 
