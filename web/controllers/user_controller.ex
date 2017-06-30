@@ -1,6 +1,5 @@
 defmodule Bouncy.UserController do
   use Bouncy.Web, :controller
-  plug :authenticate when action in [:index, :show]
 
   alias Bouncy.User
 
@@ -32,14 +31,4 @@ defmodule Bouncy.UserController do
     render conn, "show.html", user: user
   end
 
-  defp authenticate(conn, _opts) do
-    if conn.assigns.current_user do
-      conn
-    else
-      conn
-      |> put_flash(:error, "You must be logged in to access that page")
-      |> redirect(to: page_path(conn, :index))
-      |> halt()
-    end
-  end
 end

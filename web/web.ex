@@ -36,6 +36,7 @@ defmodule Bouncy.Web do
 
       import Bouncy.Router.Helpers
       import Bouncy.Gettext
+      import Bouncy.Auth, only: [authenticate_user: 2]
     end
   end
 
@@ -58,6 +59,8 @@ defmodule Bouncy.Web do
   def router do
     quote do
       use Phoenix.Router
+
+      import Bouncy.Auth, only: [authenticate_user: 2]
     end
   end
 

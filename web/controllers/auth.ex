@@ -1,6 +1,8 @@
 defmodule Bouncy.Auth do
   import Plug.Conn
   import Hasher, only: [check_password_hash: 2]
+  import Phoenix.Controller
+  alias Bouncy.Router.Helpers
 
   def init(opts) do
     Keyword.fetch!(opts, :repo)
@@ -35,6 +37,17 @@ defmodule Bouncy.Auth do
       true ->
         false
         {:error, :not_found, conn}
+    end
+  end
+
+  def authenticate_user(conn, _opts) do
+    if conn.assigns.current_user do
+      conn
+    else
+      conn
+      |> put_flash(:error, "You must be logged in to access that page")
+      |> redirect(to: Helpers.page_path(conn, :index))
+      |> halt()
     end
   end
 end
