@@ -19,12 +19,13 @@ defmodule Bouncy.Router do
 
     get "/", PageController, :index
     resources "/sessions", SessionController, only: [:new, :create, :delete]
+    resources "/users", UserController, only: [:new, :create]
   end
 
   scope "/", Bouncy do
     pipe_through [:browser, :authenticate_user]
 
-    resources "/users", UserController, only: [:index, :show, :new, :create]
+    resources "/users", UserController, only: [:index, :show]
   end
 
   # Other scopes may use custom stacks.
