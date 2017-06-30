@@ -17,7 +17,7 @@ defmodule Bouncy.User do
     struct
     |> cast(params, [:name, :username, :password])
     |> validate_required([:name, :username, :password])
-    |> validate_length(:username, min: 1, max: 20)
+    |> validate_length(:username, min: 5, max: 20)
     |> validate_format(:username, ~r/^[a-zA-Z0-9_.-]*$/, message: "Please use letters and numbers(only characters allowed _ . -)")
   end
 end
